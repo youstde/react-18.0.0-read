@@ -156,6 +156,7 @@ function dispatchEvent(
     nativeEvent,
   );
   if (blockedOn === null) {
+    // onClick事件走这里
     // if (domEventName === 'click') console.log('return_targetInst', return_targetInst);
     dispatchEventForPluginEventSystem(
       domEventName,
@@ -243,10 +244,10 @@ export function findInstanceBlockingEvent(
   // TODO: Warn if _enabled is false.
 
   return_targetInst = null;
-  // 获取原生事件的target
+  // 获取原生事件的target，其实就是真正触发当前事件的DOM元素
   const nativeEventTarget = getEventTarget(nativeEvent);
+  // 通过dom元素找到对应的Fiber节点
   let targetInst = getClosestInstanceFromNode(nativeEventTarget);
-  if (domEventName === 'click') console.log('222', domEventName, targetInst)
   if (targetInst !== null) {
     const nearestMounted = getNearestMountedFiber(targetInst);
     if (nearestMounted === null) {
@@ -284,6 +285,7 @@ export function findInstanceBlockingEvent(
       }
     }
   }
+  // 将触发事件的元素对应fiber节点挂载到全局的return_targetInst上
   return_targetInst = targetInst;
   // We're not blocked on anything.
   return null;

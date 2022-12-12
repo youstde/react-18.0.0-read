@@ -193,7 +193,7 @@ function extractEvents(
       // Then we can remove this special list.
       // This is a breaking change that can wait until React 18.
       domEventName === 'scroll';
-
+    // click事件走这里
     const listeners = accumulateSinglePhaseListeners(
       targetInst,
       reactName,
@@ -211,6 +211,7 @@ function extractEvents(
         nativeEvent,
         nativeEventTarget,
       );
+      // event就是react的合成事件对象实例，而listeners是基于从target往上所有的OnClick事件回调创建的对象
       dispatchQueue.push({event, listeners});
     }
   }

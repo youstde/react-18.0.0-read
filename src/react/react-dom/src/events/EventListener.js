@@ -12,6 +12,7 @@ export function addEventBubbleListener(
   eventType: string,
   listener: Function,
 ): Function {
+  // 这个地方的listener其实就是dispatchEvent
   target.addEventListener(eventType, listener, false);
   return listener;
 }

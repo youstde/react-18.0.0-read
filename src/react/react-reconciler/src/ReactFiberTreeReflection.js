@@ -30,6 +30,7 @@ export function getNearestMountedFiber(fiber: Fiber): null | Fiber {
   let node = fiber;
   let nearestMounted = fiber;
   if (!fiber.alternate) {
+    // 如果fiber.alternate不存在，则这个fiber应该是新的或者是第一次挂载
     // If there is no alternate, this might be a new tree that isn't inserted
     // yet. If it is, then it will have a pending insertion effect on it.
     let nextNode = node;

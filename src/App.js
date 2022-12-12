@@ -7,8 +7,13 @@ function App() {
   }
 
   return (
-    <div className="parent">
-      <div className="child" id="child" onClick={handleClick}>child</div>
+    <div className="outContainer">
+      <div className="parent">
+        <div className="innerContainer">
+          <h2>{count}</h2>
+          <div className="child" id="child" onClick={handleClick}>child</div>
+        </div>
+      </div>
     </div>
   )
 }

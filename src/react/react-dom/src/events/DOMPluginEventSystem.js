@@ -86,6 +86,7 @@ type DispatchEntry = {|
 export type DispatchQueue = Array<DispatchEntry>;
 
 // TODO: remove top-level side effect.
+// 注册所有simple事件
 SimpleEventPlugin.registerEvents();
 EnterLeaveEventPlugin.registerEvents();
 ChangeEventPlugin.registerEvents();
@@ -237,8 +238,17 @@ function processDispatchQueueItemsInOrder(
   inCapturePhase: boolean,
 ): void {
   let previousInstance;
+  // 在捕获阶段
   if (inCapturePhase) {
     for (let i = dispatchListeners.length - 1; i >= 0; i--) {
+      /**
+       * 这是push到linsteners中的listener对象
+       * {
+          instance,
+          listener,
+          currentTarget,
+        }
+       */
       const {instance, currentTarget, listener} = dispatchListeners[i];
       if (instance !== previousInstance && event.isPropagationStopped()) {
         return;
@@ -247,6 +257,8 @@ function processDispatchQueueItemsInOrder(
       previousInstance = instance;
     }
   } else {
+    // 在冒泡阶段
+    debugger
     for (let i = 0; i < dispatchListeners.length; i++) {
       const {instance, currentTarget, listener} = dispatchListeners[i];
       if (instance !== previousInstance && event.isPropagationStopped()) {
@@ -281,6 +293,7 @@ function dispatchEventsForPlugins(
 ): void {
   const nativeEventTarget = getEventTarget(nativeEvent);
   const dispatchQueue: DispatchQueue = [];
+  // 遍历fiber树，将事件监听函数push到listeners中
   extractEvents(
     dispatchQueue,
     domEventName,
@@ -671,14 +684,12 @@ export function accumulateSinglePhaseListeners(
 
   let instance = targetFiber;
   let lastHostComponent = null;
-
   // Accumulate all instances and listeners via the target -> root path.
   while (instance !== null) {
     const {stateNode, tag} = instance;
     // Handle listeners that are on HostComponents (i.e. <div>)
     if (tag === HostComponent && stateNode !== null) {
       lastHostComponent = stateNode;
-
       // createEventHandle listeners
       if (enableCreateEventHandleAPI) {
         const eventHandlerListeners = getEventHandlerListeners(
@@ -703,8 +714,10 @@ export function accumulateSinglePhaseListeners(
       }
 
       // Standard React on* listeners, i.e. onClick or onClickCapture
+      // click事件走到这里
       if (reactEventName !== null) {
         const listener = getListener(instance, reactEventName);
+        if (reactEventName === 'onClick') console.log('instance===>', instance, listener, lastHostComponent);
         if (listener != null) {
           listeners.push(
             createDispatchListener(instance, listener, lastHostComponent),
@@ -763,6 +776,7 @@ export function accumulateSinglePhaseListeners(
         listeners = [];
       }
     }
+    // 这里while循环遍历fiber树，从当前节点往上寻找
     instance = instance.return;
   }
   return listeners;
@@ -949,10 +963,10 @@ export function accumulateEventHandleNonManagedNodeListeners(
   inCapturePhase: boolean,
 ): Array<DispatchListener> {
   const listeners: Array<DispatchListener> = [];
-
   const eventListeners = getEventHandlerListeners(currentTarget);
   if (eventListeners !== null) {
     eventListeners.forEach(entry => {
+      // 这里判断一下fiber树上面的所有listener的类型，如果和当前事件类型相同，则push
       if (entry.type === reactEventType && entry.capture === inCapturePhase) {
         listeners.push(
           createDispatchListener(null, entry.callback, currentTarget),

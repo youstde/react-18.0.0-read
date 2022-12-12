@@ -10,7 +10,7 @@
 import type {DOMEventName} from './DOMEventNames';
 
 import {enableCreateEventHandleAPI} from 'shared/ReactFeatureFlags';
-
+// 存放所有原生事件，通过Set数据结构
 export const allNativeEvents: Set<DOMEventName> = new Set();
 
 if (enableCreateEventHandleAPI) {
@@ -64,7 +64,7 @@ export function registerDirectEvent(
       possibleRegistrationNames.ondblclick = registrationName;
     }
   }
-
+  // 将事件添加到set里面
   for (let i = 0; i < dependencies.length; i++) {
     allNativeEvents.add(dependencies[i]);
   }

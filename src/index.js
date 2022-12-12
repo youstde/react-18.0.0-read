@@ -9,4 +9,4 @@ const root = document.getElementById("root");
 // ReactDOM.render(<App />, root);
 
 // concurrent mode
-ReactDOM.createRoot(root).render(<div><App /></div>);
+ReactDOM.createRoot(root).render(<App />);

@@ -232,7 +232,7 @@ export function setEventHandlerListeners(
 
 export function getEventHandlerListeners(
   scope: EventTarget | ReactScopeInstance,
-): null | Set<ReactDOMEventHandleListener> {
+): null | Set<ReactDOMEventHandleListener> { 
   return (scope: any)[internalEventHandlerListenersKey] || null;
 }
 
