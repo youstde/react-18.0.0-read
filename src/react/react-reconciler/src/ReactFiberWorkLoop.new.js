@@ -432,7 +432,9 @@ export function getCurrentTime() {
 export function requestUpdateLane(fiber: Fiber): Lane {
   // Special cases
   const mode = fiber.mode;
+  // 这里通过位运算判断当前mode是不是concurrent模式
   if ((mode & ConcurrentMode) === NoMode) {
+    // 如果当前mode和concurrentMode进行与运算等于NoMode，那就是同步模式
     return (SyncLane: Lane);
   } else if (
     !deferRenderPhaseUpdateToNextBatch &&

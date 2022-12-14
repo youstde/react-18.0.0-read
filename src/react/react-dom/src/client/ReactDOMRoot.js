@@ -92,6 +92,7 @@ function ReactDOMRoot(internalRoot: FiberRoot) {
 ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render = function(
   children: ReactNodeList,
 ): void {
+  // fiberRoot
   const root = this._internalRoot;
   if (root === null) {
     throw new Error('Cannot update an unmounted root.');

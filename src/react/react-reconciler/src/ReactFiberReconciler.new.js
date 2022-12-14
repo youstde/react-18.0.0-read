@@ -327,6 +327,7 @@ export function updateContainer(
   if (__DEV__) {
     onScheduleRoot(container, element);
   }
+  // rootFiber
   const current = container.current;
   const eventTime = requestEventTime();
   const lane = requestUpdateLane(current);
