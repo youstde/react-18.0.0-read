@@ -1241,7 +1241,7 @@ function performSyncWorkOnRoot(root) {
     ensureRootIsScheduled(root, now());
     return null;
   }
-
+  // 这里进去，然后执行workloop
   let exitStatus = renderRootSync(root, lanes);
   if (root.tag !== LegacyRoot && exitStatus === RootErrored) {
     // If something threw an error, try rendering one more time. We'll render
@@ -1694,6 +1694,7 @@ function renderRootSync(root: FiberRoot, lanes: Lanes) {
 
   do {
     try {
+      // 这里就是workloop
       workLoopSync();
       break;
     } catch (thrownValue) {

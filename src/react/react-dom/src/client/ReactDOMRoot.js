@@ -171,7 +171,6 @@ export function createRoot(
   if (!isValidContainer(container)) {
     throw new Error('createRoot(...): Target container is not a DOM element.');
   }
-
   warnIfReactDOMContainerInDEV(container);
 
   let isStrictMode = false;
@@ -221,7 +220,7 @@ export function createRoot(
       transitionCallbacks = options.transitionCallbacks;
     }
   }
-  // 创建fiberRoot
+  // 创建fiberRoot和rootFiber
   const root = createContainer(
     container,
     ConcurrentRoot,

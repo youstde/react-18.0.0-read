@@ -258,7 +258,6 @@ function processDispatchQueueItemsInOrder(
     }
   } else {
     // 在冒泡阶段
-    debugger
     for (let i = 0; i < dispatchListeners.length; i++) {
       const {instance, currentTarget, listener} = dispatchListeners[i];
       if (instance !== previousInstance && event.isPropagationStopped()) {

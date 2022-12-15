@@ -971,6 +971,7 @@ function completeWork(
             markUpdate(workInProgress);
           }
         } else {
+          // 创建对应的DOM节点
           const instance = createInstance(
             type,
             newProps,
@@ -980,7 +981,7 @@ function completeWork(
           );
 
           appendAllChildren(instance, workInProgress, false, false);
-
+          // 将创建好的DOM赋值给stateNode
           workInProgress.stateNode = instance;
 
           // Certain renderers require commit-time effects for initial mount.
