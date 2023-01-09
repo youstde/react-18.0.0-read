@@ -6,7 +6,7 @@ const paths = require("./paths");
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve("./paths")];
-
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error(
@@ -92,7 +92,7 @@ function getClientEnvironment(publicUrl) {
     );
   // Stringify all values so we can feed into webpack DefinePlugin
   const stringified = {
-    __DEV__: false,
+    __DEV__: true,
     __PROFILE__: false,
     __UMD__: true,
     __EXPERIMENTAL__: true,

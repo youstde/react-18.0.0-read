@@ -310,21 +310,23 @@ module.exports = function (webpackEnv) {
         .filter((ext) => useTypeScript || !ext.includes("ts")),
       alias: {
         "react-native": "react-native-web",
-        react: path.resolve(__dirname, "../src/react/react"),
-        "react-dom": path.resolve(__dirname, "../src/react/react-dom"),
+        'react': path.resolve(__dirname, "../src/packages/react"),
+        "react-dom": path.resolve(__dirname, "../src/packages/react-dom"),
+        "react-dom-bindings": path.resolve(__dirname, '../src/packages/react-dom-bindings'),
+        "react-reconciler": path.resolve(__dirname, '../src/packages/react-reconciler'),
         "shared/ReactSharedInternals": path.resolve(
           __dirname,
-          "../src/react/react/src/ReactSharedInternals"
+          "../src/packages/react/src/ReactSharedInternals"
         ),
-        shared: path.resolve(__dirname, "../src/react/shared"),
+        shared: path.resolve(__dirname, "../src/packages/shared"),
         "react-reconciler": path.resolve(
           __dirname,
-          "../src/react/react-reconciler"
+          "../src/packages/react-reconciler"
         ),
-        scheduler: path.resolve(__dirname, "../src/react/scheduler"),
+        scheduler: path.resolve(__dirname, "../src/packages/scheduler"),
         "./ReactFiberHostConfig": path.resolve(
           __dirname,
-          "../src/react/react-reconciler/src/forks/ReactFiberHostConfig.dom"
+          "../src/packages/react-reconciler/src/forks/ReactFiberHostConfig.dom"
         ),
       },
       plugins: [
