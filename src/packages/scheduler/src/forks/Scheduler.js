@@ -339,7 +339,7 @@ function unstable_scheduleCallback(priorityLevel, callback, options) {
       timeout = NORMAL_PRIORITY_TIMEOUT;
       break;
   }
-
+// 任务过期时间 = 当前时间(currentTime) + 延时(delay) + 优先级超时(timeout)
   var expirationTime = startTime + timeout;
 
   var newTask = {
@@ -439,6 +439,7 @@ let needsPaint = false;
 
 function shouldYieldToHost() {
   const timeElapsed = getCurrentTime() - startTime;
+  // frameInterval 为 5ms
   if (timeElapsed < frameInterval) {
     // The main thread has only been blocked for a really short amount of time;
     // smaller than a single frame. Don't yield yet.
@@ -517,6 +518,9 @@ const performWorkUntilDeadline = () => {
     const currentTime = getCurrentTime();
     // Keep track of the start time so we can measure how long the main thread
     // has been blocked.
+    // 这里将 startTime 设置为 currentTime，然后继续执行更新，每次处理完一个 fiber 节点，
+    // 再判断 currentTime - startTime 是否大于 5ms
+    // 如果大于 5ms 就暂停，重新创建一个宏任务等待下次浏览器去执行
     startTime = currentTime;
     const hasTimeRemaining = true;
 
@@ -565,7 +569,9 @@ if (typeof localSetImmediate === 'function') {
   };
 } else if (typeof MessageChannel !== 'undefined') {
   // DOM and Worker environments.
+  // 浏览器模式下，使用 MessageChanel
   // We prefer MessageChannel because of the 4ms setTimeout clamping.
+  // 我们更建议使用 MessageChannel 因为 setTimeout 有 4ms 的延迟
   const channel = new MessageChannel();
   const port = channel.port2;
   channel.port1.onmessage = performWorkUntilDeadline;
@@ -573,6 +579,7 @@ if (typeof localSetImmediate === 'function') {
     port.postMessage(null);
   };
 } else {
+  // 非浏览器模式下，使用 setTimeout
   // We should only fallback here in non-browser environments.
   schedulePerformWorkUntilDeadline = () => {
     localSetTimeout(performWorkUntilDeadline, 0);

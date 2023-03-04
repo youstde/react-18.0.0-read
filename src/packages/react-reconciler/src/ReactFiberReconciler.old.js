@@ -324,6 +324,7 @@ export function updateContainer(
   parentComponent: ?React$Component<any, any>,
   callback: ?Function,
 ): Lane {
+  console.log('element', element);
   if (__DEV__) {
     onScheduleRoot(container, element);
   }

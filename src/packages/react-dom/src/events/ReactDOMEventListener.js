@@ -155,6 +155,9 @@ export function dispatchEvent(
   if (!_enabled) {
     return;
   }
+  if (domEventName === 'click') {
+    // debugger;
+  }
   if (enableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay) {
     dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay(
       domEventName,
